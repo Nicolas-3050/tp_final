@@ -1,0 +1,21 @@
+---
+
+  - hosts: server
+    become: yes
+    tasks:
+     - name: Install nginx package
+       apt:
+        name: nginx
+        update_cache: true
+
+     - name: Supprimer le html
+       file: path=/var/www/html state=absent
+
+     - name: clone un repertoire
+       git: >
+         repo=https://github.com/Nicolas-3050/html.git
+         dest=/var/www/html
+
+    handlers:
+     - name: start Nginx
+       service: name=nginx state=started
